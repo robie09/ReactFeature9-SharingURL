@@ -16,6 +16,7 @@ import ProductList from "./components/ProductList";
 import { ThemeProvider } from "styled-components";
 // Data
 import products from "./products";
+import { Route, Switch } from "react-router";
 
 const theme = {
   light: {
@@ -34,48 +35,60 @@ const theme = {
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState("light");
-  const [product, setProduct] = useState(null);
+  // const [product, setProduct] = useState(null);
   const [_products, setProducts] = useState(products);
 
   const deleteProduct = (productId) => {
     const updatedProducts = _products.filter(
       (product) => product.id !== +productId
     );
-    setProducts(updatedProducts);
-    setProduct(null);
+    // /setProducts(updatedProducts);
+    //setProduct(null);
   };
 
   const selectProduct = (productId) => {
     const selectedProduct = products.find(
       (product) => product.id === productId
     );
-    setProduct(selectedProduct);
+    setProducts(selectedProduct);
   };
 
   const toggleTheme = () =>
     setCurrentTheme(currentTheme === "light" ? "dark" : "light");
 
-  const setView = () =>
-    product ? (
-      <ProductDetail
-        product={product}
-        deleteProduct={deleteProduct}
-        selectProduct={selectProduct}
-      />
-    ) : (
-      <ProductList
-        products={_products}
-        deleteProduct={deleteProduct}
-        selectProduct={selectProduct}
-      />
-    );
+  // const setView = () =>
+  //   product ? (
+  //     <ProductDetail
+  //       //  product={product}
+  //       deleteProduct={deleteProduct}
+  //       selectProduct={selectProduct}
+  //     />
+  //   ) : (
+  //     <ProductList
+  //       products={_products}
+  //       deleteProduct={deleteProduct}
+  //       selectProduct={selectProduct}
+  //     />
+  //   );
 
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <GlobalStyle />
       <NavBar currentTheme={currentTheme} toggleTheme={toggleTheme} />
-      <Home />
-      {setView()}
+      <Switch>
+        <Route path="/products/:productSlug.">
+          <ProductDetail products={_products} deleteProduct={deleteProduct} />
+        </Route>
+
+        <Route path="/products">
+          <ProductList products={_products} deleteProduct={deleteProduct} />
+        </Route>
+        <Route exact path="/">
+          <Home />
+        </Route>
+      </Switch>
+
+      {/* {setView()} */}
     </ThemeProvider>
   );
 }

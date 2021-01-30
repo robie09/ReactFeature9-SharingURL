@@ -1,4 +1,15 @@
 import styled, { createGlobalStyle } from "styled-components";
+import { Link, NavLink } from "react-router-dom";
+
+export const NavProduct = styled(NavLink)`
+  color: ${(props) => props.theme.mainColor};
+  &.active {
+    color: ${(props) => props.theme.pink};
+  }
+`;
+export const Logo = styled(Link)`
+  color: ${(props) => props.theme.pink};
+`;
 
 export const DeleteButtonStyled = styled.p`
   color: ${(props) => props.theme.red};
