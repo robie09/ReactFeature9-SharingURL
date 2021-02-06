@@ -1,4 +1,3 @@
-// Styling
 import {
   Description,
   GlobalStyle,
@@ -14,6 +13,7 @@ import NavBar from "./components/NavBar";
 import ProductDetail from "./components/ProductDetail";
 import ProductList from "./components/ProductList";
 import { ThemeProvider } from "styled-components";
+import ProductForm from "./components/ProductForm";
 // Data
 import products from "./products";
 import { Route, Switch } from "react-router";
@@ -56,39 +56,25 @@ function App() {
   const toggleTheme = () =>
     setCurrentTheme(currentTheme === "light" ? "dark" : "light");
 
-  // const setView = () =>
-  //   product ? (
-  //     <ProductDetail
-  //       //  product={product}
-  //       deleteProduct={deleteProduct}
-  //       selectProduct={selectProduct}
-  //     />
-  //   ) : (
-  //     <ProductList
-  //       products={_products}
-  //       deleteProduct={deleteProduct}
-  //       selectProduct={selectProduct}
-  //     />
-  //   );
-
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <GlobalStyle />
       <NavBar currentTheme={currentTheme} toggleTheme={toggleTheme} />
       <Switch>
-        <Route path="/products/:productSlug.">
-          <ProductDetail products={_products} deleteProduct={deleteProduct} />
+        <Route path={["/products/new", "/products/:productSlug/edit"]}>
+          <ProductForm />
+        </Route>
+        <Route path="/products/:productSlug">
+          <ProductDetail />
         </Route>
 
         <Route path="/products">
-          <ProductList products={_products} deleteProduct={deleteProduct} />
+          <ProductList />
         </Route>
         <Route exact path="/">
           <Home />
         </Route>
       </Switch>
-
-      {/* {setView()} */}
     </ThemeProvider>
   );
 }

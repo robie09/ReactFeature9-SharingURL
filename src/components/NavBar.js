@@ -12,6 +12,8 @@ const NavBar = (props) => {
       </Logo>
       <div className="navbar-nav ml-auto">
         <Link to="/">Home</Link>
+        <br />
+        <br />
 
         <NavProduct
           to="/products"

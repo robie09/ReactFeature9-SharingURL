@@ -1,14 +1,20 @@
-// Styling
 import { ListWrapper } from "../styles";
 // Components
 import ProductItem from "./ProductItem";
 import SearchBar from "./SearchBar";
 import { useState } from "react";
 
-const ProductList = (props) => {
+import { useSelector } from "react-redux";
+
+import AddButton from "./buttons/AddButton";
+import { BiAddToQueue } from "react-icons/bi";
+import { Link } from "react-router-dom";
+
+const ProductList = ({ deleteProduct }) => {
+  const products = useSelector((state) => state.products);
   const [query, setQuery] = useState("");
 
-  const productList = props.products
+  const productList = products
     .filter((product) =>
       product.name.toLowerCase().includes(query.toLowerCase())
     )
@@ -16,15 +22,18 @@ const ProductList = (props) => {
       <ProductItem
         product={product}
         key={product.id}
-        deleteProduct={props.deleteProduct}
-        selectProduct={props.selectProduct}
+        deleteProduct={deleteProduct}
       />
     ));
 
   return (
     <div>
       <SearchBar setQuery={setQuery} />
+      <Link to="products/new">
+        <BiAddToQueue className="float-right" size="3em" />
+      </Link>
       <ListWrapper>{productList}</ListWrapper>
+      <AddButton /> <br />
     </div>
   );
 };
